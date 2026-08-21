@@ -1,0 +1,532 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ============================================
+   DESIGN TOKENS — "Terminal Editorial" System
+   Amber + Monochrome + Sharp Grid
+   ============================================ */
+:root {
+  --bg: #080808;
+  --bg-1: #0f0f0f;
+  --bg-2: #161616;
+  --bg-3: #1e1e1e;
+  --border: #222222;
+  --border-bright: #333333;
+  --text: #f0f0f0;
+  --text-muted: #888888;
+  --text-dim: #444444;
+  --amber: #f59e0b;
+  --amber-dim: rgba(245, 158, 11, 0.12);
+  --amber-border: rgba(245, 158, 11, 0.3);
+  --green: #22c55e;
+  --red: #ef4444;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    cursor: none;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--amber);
+    color: #000;
+  }
+
+  ::-webkit-scrollbar { width: 1px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--amber); }
+}
+
+/* ============================================
+   LAYOUT GRID SYSTEM
+   ============================================ */
+.site-grid {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  min-height: 100vh;
+}
+
+.side-gutter {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  background: var(--bg);
+}
+
+.side-gutter-text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--amber);
+  writing-mode: vertical-rl;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* ============================================
+   TICKER TAPE
+   ============================================ */
+.ticker-bar {
+  height: 32px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-1);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.ticker-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  animation: ticker-scroll 40s linear infinite;
+}
+
+.ticker-item {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  padding: 0 24px;
+  border-right: 1px solid var(--border);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.05em;
+}
+
+.ticker-item .up { color: var(--green); }
+.ticker-item .down { color: var(--red); }
+.ticker-item .amber { color: var(--amber); }
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============================================
+   TYPOGRAPHY — EDITORIAL SYSTEM
+   ============================================ */
+.headline-xl {
+  font-family: var(--font-display);
+  font-size: clamp(64px, 11vw, 160px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.headline-lg {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 90px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.headline-md {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.label-amber {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* ============================================
+   BORDER / DIVIDER SYSTEM
+   ============================================ */
+.section-border {
+  border-top: 1px solid var(--border);
+}
+
+.col-border {
+  border-left: 1px solid var(--border);
+}
+
+.amber-line {
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--amber);
+}
+
+/* ============================================
+   CARDS & PANELS (NO GLASS — HARD EDGES)
+   ============================================ */
+.panel {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+}
+
+.panel-hover {
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.panel-hover:hover {
+  border-color: var(--amber-border);
+  background: var(--bg-2);
+}
+
+/* ============================================
+   STAT BLOCK — EDITORIAL NUMBERS
+   ============================================ */
+.stat-block {
+  padding: 24px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  color: var(--amber);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+/* ============================================
+   ORDER BOOK WIDGET
+   ============================================ */
+.order-book {
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.order-row {
+  display: grid;
+  grid-template-columns: 1fr 80px 80px;
+  gap: 0;
+  height: 22px;
+  align-items: center;
+  padding: 0 12px;
+  position: relative;
+  cursor: default;
+}
+
+.order-row:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.order-fill-ask {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(239, 68, 68, 0.07);
+  pointer-events: none;
+}
+
+.order-fill-bid {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(34, 197, 94, 0.07);
+  pointer-events: none;
+}
+
+/* ============================================
+   PROJECT CARD — BRUTALIST
+   ============================================ */
+.project-card {
+  border: 1px solid var(--border);
+  background: var(--bg-1);
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+}
+
+.project-card:hover {
+  border-color: var(--amber);
+}
+
+.project-card:hover .project-number {
+  color: var(--amber);
+}
+
+.project-number {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  transition: color 0.2s;
+}
+
+/* ============================================
+   TERMINAL / CLI
+   ============================================ */
+.terminal {
+  background: #000;
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.terminal-bar {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* ============================================
+   CUSTOM CURSOR
+   ============================================ */
+.cursor-dot {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 6px;
+  height: 6px;
+  background: var(--amber);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s ease, width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
+}
+
+.cursor-ring {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  border: 1px solid var(--amber);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, border-radius 0.25s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+/* ============================================
+   SKILLS MATRIX
+   ============================================ */
+.skill-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 48px;
+  gap: 0;
+  height: 36px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+}
+
+.skill-bar-track {
+  height: 2px;
+  background: var(--border);
+  position: relative;
+}
+
+.skill-bar-fill {
+  height: 100%;
+  background: var(--amber);
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 48px;
+  right: 0;
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 40;
+  transition: background 0.3s ease;
+}
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.15s ease;
+  text-decoration: none;
+}
+
+.nav-link:hover { color: var(--amber); }
+
+/* ============================================
+   SECTION NUMBERING
+   ============================================ */
+.section-tag {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.section-index {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.2em;
+}
+
+/* ============================================
+   BUTTON SYSTEM
+   ============================================ */
+.btn-amber {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--amber);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.btn-amber:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-amber:active { transform: translateY(0); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-outline:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+
+/* ============================================
+   UTILITY ANIMATIONS
+   ============================================ */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes data-flash {
+  0% { color: var(--amber); }
+  100% { color: inherit; }
+}
+
+.data-flash {
+  animation: data-flash 0.3s ease-out;
+}
+
+/* ============================================
+   HORIZONTAL SCROLL TRACK
+   ============================================ */
+.h-scroll-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+}
+
+.h-scroll-item {
+  width: 420px;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .site-grid { grid-template-columns: 1fr; }
+  .side-gutter { display: none; }
+  .nav { left: 0; padding: 0 16px; }
+  .headline-xl { font-size: clamp(40px, 10vw, 80px); }
+}
